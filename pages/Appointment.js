@@ -15,13 +15,18 @@ import {
 } from 'react-native';
 
 export default class Appointment extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      password: '',
+      accepted: true,
+    };
+  }
   render() {
     return (
       <ImageBackground
         source={require('./assets/appointmentbg.jpg')}
-        style={styles.bgimage}>
-        <FlatList></FlatList>
-      </ImageBackground>
+        style={styles.bgimage}></ImageBackground>
     );
   }
 }

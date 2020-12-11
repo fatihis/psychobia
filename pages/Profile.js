@@ -14,33 +14,34 @@ import {
   FlatList,
 } from 'react-native';
 import ProfileData from './components/ProfileData';
+import firestore from '@react-native-firebase/firestore';
+import auth from '@react-native-firebase/auth';
+const _uid = auth().currentUser.uid;
 
 export default class Profile extends Component {
-  ListItem = ({item, index}) => {
-    return (
-      <TouchableOpacity
-        onPress={({item}) => this.itemOnPress}
-        style={styles.ItemComp}>
-        <Image style={styles.ItemImage} source={{uri: item.picture}}></Image>
-        <View style={styles.ItemTextWrapper}>
-          <Text>{item.name}</Text>
-          <Text>{item.star}</Text>
-        </View>
-      </TouchableOpacity>
-    );
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: {
+        email: '',
+        name: '',
+        uid: '',
+      },
+    };
+    this.getUserFb();
+  }
+  getUserFb = async () => {
+    const gotUser = await firestore().collection('Users').doc(_uid).get();
+    this.setState({user: gotUser.data()});
+    alert(this.state.user.name);
   };
   render() {
     return (
       <ImageBackground
         source={require('./assets/profilebg.jpg')}
         style={styles.bgimage}>
-        <FlatList
-          renderItem={this.ListItem}
-          keyExtractor={(item) => item._id}
-          data={ProfileData}
-          style={styles.FlatList}></FlatList>
         <View style={styles.settingSection}>
-          <View style={styles.settingPart}></View>
+          <TouchableOpacity style={styles.settingPart}></TouchableOpacity>
           <View style={styles.settingPart}></View>
           <View style={styles.settingPart}></View>
           <View style={styles.settingPart}></View>
