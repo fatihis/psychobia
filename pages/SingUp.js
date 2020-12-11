@@ -11,10 +11,13 @@ import {
   Button,
   TouchableOpacity,
   TextInput,
+  Alert,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {Input, CheckBox} from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
+import auth from '@react-native-firebase/auth';
+import firestore from '@react-native-firebase/firestore';
 export default class SingUp extends Component {
   static navigationOptions = {
     headerShown: false,
@@ -26,6 +29,7 @@ export default class SingUp extends Component {
       email: '',
       password: '',
       checked: false,
+      uid: '',
     };
   }
   handleEmail = (text) => {
@@ -40,7 +44,35 @@ export default class SingUp extends Component {
   onPressCheckBox = () => {
     this.setState({checked: true});
   };
-  onPressLogin = (email, password, name) => alert(email + password + name);
+
+  onPressLogin = (email, password, name) =>
+    auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then(() => {
+        const uidGet = auth().currentUser.uid;
+        this.setState({uid: uidGet});
+
+        firestore().collection('Users').doc(uidGet).set({
+          uid: this.state.uid,
+          email: this.state.email,
+          name: this.state.name,
+        });
+        alert('User account created & signed in!');
+      })
+      .catch((error) => {
+        if (error.code === 'auth/email-already-in-use') {
+          alert('Bu email adresi zaten kullanılıyor');
+        }
+
+        if (error.code === 'auth/invalid-email') {
+          alert('Lütfen geçerli bir email adresi yazın');
+        }
+        if (error.code === 'auth/weak-password') {
+          alert('Parolanız zayıf!');
+        }
+
+        console.error(error);
+      });
   render() {
     return (
       <ImageBackground

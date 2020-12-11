@@ -15,6 +15,8 @@ import {
 import {createStackNavigator} from 'react-navigation-stack';
 import {AppContainer, createAppContainer} from 'react-navigation';
 
+import auth from '@react-native-firebase/auth';
+
 export default class Login extends Component {
   static navigationOptions = {
     headerShown: false,
@@ -23,8 +25,11 @@ export default class Login extends Component {
     super(props);
     this.state = {
       email: '',
+      initializing: false,
+      setInitializing: false,
       password: '',
       accepted: true,
+      uid: '',
     };
   }
   componentDidMount() {}
@@ -36,10 +41,24 @@ export default class Login extends Component {
   };
 
   onPressLogin(email, password) {
-    alert(email + password);
-    if (this.state.accepted == true) {
-      this.props.navigation.navigate('AppNavigator');
-    }
+    auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(() => {
+        this.setState({uid: auth().currentUser.uid});
+
+        this.props.navigation.navigate('AppNavigator');
+      })
+      .catch((error) => {
+        if (error.code === 'auth/wrong-password') {
+          alert('Şifreniz hatalı.');
+        }
+
+        if (error.code === 'auth/invalid-email') {
+          alert('Böyle bir email adresi kayıtlı değil!');
+        }
+
+        console.error(error);
+      });
   }
   render() {
     return (
