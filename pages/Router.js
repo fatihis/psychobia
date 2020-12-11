@@ -18,7 +18,11 @@ class LoginNavigator extends Component {
   }
 }
 
-//
+/*Welcomer: {
+  screen: (props) => <Welcomer {...props} />,
+  navigationOptions: {
+    headerShown: false,},
+  },*/
 
 const AppNavigatorr = createStackNavigator(
   {
