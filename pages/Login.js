@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import {createStackNavigator} from 'react-navigation-stack';
 import {AppContainer, createAppContainer} from 'react-navigation';
-
+import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 
 export default class Login extends Component {
@@ -29,7 +29,13 @@ export default class Login extends Component {
       setInitializing: false,
       password: '',
       accepted: true,
-      uid: '',
+      _uid: '',
+      user: {
+        email: '',
+        name: '',
+        uid: '',
+        userType: '',
+      },
     };
   }
   componentDidMount() {}
@@ -39,14 +45,24 @@ export default class Login extends Component {
   handlePassword = (text) => {
     this.setState({password: text});
   };
-
+  getUserFb = async () => {
+    const gotUser = await firestore()
+      .collection('Users')
+      .doc(auth().currentUser.uid)
+      .get();
+    this.setState({user: gotUser.data()});
+  };
   onPressLogin(email, password) {
     auth()
       .signInWithEmailAndPassword(email, password)
       .then(() => {
-        this.setState({uid: auth().currentUser.uid});
+        this.getUserFb();
 
-        this.props.navigation.navigate('AppNavigator');
+        if (this.state.user.userType == 'user') {
+          this.props.navigation.navigate('AppNavigator');
+        } else {
+          this.props.navigation.navigate('SignUp');
+        }
       })
       .catch((error) => {
         if (error.code === 'auth/wrong-password') {
@@ -90,7 +106,7 @@ export default class Login extends Component {
                   onChangeText={this.handleEmail}
                   style={styles.input}></TextInput>
                 <TextInput
-                  placeholder="Password"
+                  placeholder="Şifre"
                   secureTextEntry={true}
                   onChangeText={this.handlePassword}
                   style={styles.input}></TextInput>

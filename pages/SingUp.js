@@ -56,6 +56,7 @@ export default class SingUp extends Component {
           uid: this.state.uid,
           email: this.state.email,
           name: this.state.name,
+          userType: 'user',
         });
         alert('User account created & signed in!');
       })

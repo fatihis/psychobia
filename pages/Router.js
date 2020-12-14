@@ -8,7 +8,7 @@ import MainPage from './MainPage';
 import TabsNavigator from './TabsNavigator';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {Input, CheckBox} from 'react-native-elements';
-
+import {fromLeft} from 'react-navigation-transitions';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
 
 //
