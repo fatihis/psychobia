@@ -17,7 +17,6 @@ import {
 import ProfileData from './components/ProfileData';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
-const _uid = auth().currentUser.uid;
 
 export default class Profile extends Component {
   constructor(props) {
@@ -32,7 +31,10 @@ export default class Profile extends Component {
     this.getUserFb();
   }
   getUserFb = async () => {
-    const gotUser = await firestore().collection('Users').doc(_uid).get();
+    const gotUser = await firestore()
+      .collection('Users')
+      .doc(auth().currentUser.uid)
+      .get();
     this.setState({user: gotUser.data()});
   };
   render() {
@@ -41,11 +43,7 @@ export default class Profile extends Component {
         source={require('./assets/profilebg.jpg')}
         style={styles.bgimage}>
         <View style={styles.profileDetails}>
-          <View style={styles.prfimage}>
-            <Image
-              style={styles.image}
-              source={require('./assets/27.jpg')}></Image>
-          </View>
+          <View style={styles.prfimage}></View>
           <View style={styles.verticalContainer}>
             <View style={styles.name}></View>
             <View style={styles.userType}></View>
