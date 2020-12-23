@@ -1,18 +1,6 @@
 import React, {Component, Fragment} from 'react';
 
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-  ImageBackground,
-  Image,
-  Button,
-  TouchableOpacity,
-  TextInput,
-} from 'react-native';
+import {StatusBar} from 'react-native';
 import {createStackNavigator} from 'react-navigation-stack';
 
 import Router from './pages/Router';

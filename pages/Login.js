@@ -12,8 +12,6 @@ import {
   TouchableOpacity,
   TextInput,
 } from 'react-native';
-import {createStackNavigator} from 'react-navigation-stack';
-import {AppContainer, createAppContainer} from 'react-navigation';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 
@@ -30,6 +28,10 @@ export default class Login extends Component {
       password: '',
       accepted: true,
       _uid: '',
+      emailDanismanHazir: 'danisman@gmail.com',
+      emailUserHazir: 'user@gmail.com',
+      passwordDanismanHazir: '123456',
+      passwordUserHazir: '123456',
       user: {
         email: '',
         name: '',
@@ -45,6 +47,9 @@ export default class Login extends Component {
   handlePassword = (text) => {
     this.setState({password: text});
   };
+  timeout(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  }
   getUserFb = async () => {
     const gotUser = await firestore()
       .collection('Users')
@@ -57,12 +62,13 @@ export default class Login extends Component {
       .signInWithEmailAndPassword(email, password)
       .then(() => {
         this.getUserFb();
-
-        if (this.state.user.userType == 'user') {
-          this.props.navigation.navigate('AppNavigator');
-        } else {
-          this.props.navigation.navigate('SignUp');
-        }
+        this.timeout(1000).then(() => {
+          if (this.state.user.userType == 'user') {
+            this.props.navigation.navigate('AppNavigator');
+          } else {
+            this.props.navigation.navigate('SignUp');
+          }
+        });
       })
       .catch((error) => {
         if (error.code === 'auth/wrong-password') {
@@ -126,6 +132,26 @@ export default class Login extends Component {
                   </Text>
                 </Text>
               </View>
+              <TouchableOpacity
+                style={styles.userGiris}
+                onPress={() =>
+                  this.onPressLogin(
+                    this.state.emailUserHazir,
+                    this.state.passwordUserHazir,
+                  )
+                }>
+                <Text>User Girişi</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.danismanGiris}
+                onPress={() =>
+                  this.onPressLogin(
+                    this.state.emailDanismanHazir,
+                    this.state.passwordDanismanHazir,
+                  )
+                }>
+                <Text>Danisman Girişi</Text>
+              </TouchableOpacity>
             </ScrollView>
           </ImageBackground>
         </View>
@@ -138,6 +164,16 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
+  },
+  userGiris: {
+    width: 60,
+    height: 40,
+    borderWidth: 1,
+  },
+  danismanGiris: {
+    width: 60,
+    height: 40,
+    borderWidth: 1,
   },
   textLogo: {
     flex: 1,
@@ -165,8 +201,8 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     borderRadius: 20,
     backgroundColor: '#c5d7e8',
-    opacity: 0.5,
-    color: '#0c1685',
+    opacity: 1,
+    color: 'black',
     padding: 10,
   },
   kayitText: {
