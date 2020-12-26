@@ -13,6 +13,7 @@ import {
   TextInput,
   FlatList,
 } from 'react-native';
+
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 
@@ -27,7 +28,8 @@ export default class Appointment extends Component {
       appUserUid: '',
       appConsultantUid: '',
       appDate: '',
-      dataToList: [],
+      users: [],
+      setUsers: [],
     };
   }
 
@@ -46,7 +48,7 @@ export default class Appointment extends Component {
             documentSnapshot.id,
             documentSnapshot.data(),
           );
-          this.setState({appUserUid: documentSnapshot.data().uidUser});
+          /*this.setState({appUserUid: documentSnapshot.data().uidUser});
           this.setState({
             appConsultantUid: documentSnapshot.data().uidConsultant,
           });
@@ -55,23 +57,21 @@ export default class Appointment extends Component {
           });
           console.log('state', this.state.appUserUid);
           console.log('state', this.state.appDate);
-          console.log('state', this.state.appConsultantUid);
+          console.log('state', this.state.appConsultantUid);*/
           //çok sayıda yapmak için yukarıdaki foreachi kullanmayı unutma
-          this.setState({
-            dataToList: [
-              {
-                userUid: this.state.appUserUid,
-                consultantUid: this.state.appConsultantUid,
-              },
-            ],
+          this.state.users.push({
+            ...documentSnapshot.data(),
+            key: documentSnapshot.id,
           });
+
+          console.log('liste', this.state.users);
         });
       });
   };
   componentDidMount() {
     this.getAppointment();
   }
-  ListItem = ({item, index}) => {
+  /*ListItem = ({item, index}) => {
     return (
       <TouchableOpacity
         onPress={() => this.itemOnPress}
@@ -83,7 +83,7 @@ export default class Appointment extends Component {
         </View>
       </TouchableOpacity>
     );
-  };
+  };*/
   render() {
     return (
       <ImageBackground
@@ -92,9 +92,21 @@ export default class Appointment extends Component {
         <View style={styles.MainContainer}>
           <Text style={styles.appointmentsText}>Appointments</Text>
           <FlatList
-            renderItem={this.ListItem}
+            renderItem={({item}) => (
+              <View
+                style={{
+                  height: 50,
+                  flex: 1,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                <Text>Consultant ID: {item.uidConsultant}</Text>
+                <Text> User ID: {item.uidUser}</Text>
+                <Text> User ID: {item.appDate}</Text>
+              </View>
+            )}
             keyExtractor={(item) => item._id}
-            data={dataToList}
+            data={Data}
             style={styles.FlatList}
           />
         </View>
@@ -116,6 +128,8 @@ const styles = StyleSheet.create({
   },
   FlatList: {
     marginTop: 30,
+    flex: 1,
+    backgroundColor: 'red',
   },
   ItemComp: {
     width: '100%',
