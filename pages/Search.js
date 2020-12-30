@@ -1,48 +1,65 @@
-import React, {Component} from 'react';
+import React, {Component, useState} from 'react';
 import {
-  SafeAreaView,
   StyleSheet,
-  ScrollView,
   View,
   Text,
-  StatusBar,
   ImageBackground,
-  Image,
-  Button,
   TouchableOpacity,
   TextInput,
   FlatList,
 } from 'react-native';
-import Data from './components/Data';
+
+import firestore from '@react-native-firebase/firestore';
 
 export default class Search extends Component {
   state = {
     text: '',
-    contacts: Data,
+    users: [],
   };
   itemOnPress(item) {
     alert('item: ' + item._id);
   }
+  componentDidMount() {
+    const subscriber = firestore()
+      .collection('Users')
+      .where('userType', '==', 'consultant')
+      .onSnapshot((querySnapshot) => {
+        const users = [];
+
+        querySnapshot.forEach((documentSnapshot) => {
+          users.push({
+            ...documentSnapshot.data(),
+            key: documentSnapshot.name,
+          });
+        });
+        this.setState({users: users});
+        console.log(this.state.users);
+      });
+    return () => subscriber();
+  }
   ListItem = ({item, index}) => {
     return (
-      <TouchableOpacity
-        onPress={({item}) => this.itemOnPress}
-        style={styles.ItemComp}>
-        <Image style={styles.ItemImage} source={{uri: item.picture}}></Image>
-        <View style={styles.ItemTextWrapper}>
-          <Text>{item.name}</Text>
-          <Text>{item.star}</Text>
+      <TouchableOpacity style={styles.itemContainter}>
+        <View
+          style={{
+            height: 60,
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <Text style={styles.insider}>Consultant Name: {item.name}</Text>
+          <Text style={styles.insider}>Consultant Uid: {item.uid}</Text>
         </View>
       </TouchableOpacity>
     );
   };
   searchFilter = (text) => {
-    const newData = Data.filter((item) => {
-      const listItem = `${item.name.toLowerCase()} ${item.star.toLowerCase()}`;
+    const newData = this.state.users.filter((item) => {
+      const listItem = `${item.name.toLowerCase()} ${item.uid.toLowerCase()}`;
       return listItem.indexOf(text.toLowerCase()) > -1;
     });
     this.setState({
-      contacts: newData,
+      users: newData,
     });
   };
   renderHeader = () => {
@@ -65,6 +82,9 @@ export default class Search extends Component {
   };
 
   render() {
+    if (this.state.loading) {
+      return <ActivityIndicator />;
+    }
     return (
       <ImageBackground
         source={require('./assets/searchbg.jpg')}
@@ -75,7 +95,7 @@ export default class Search extends Component {
             ListHeaderComponent={this.renderHeader()}
             renderItem={this.ListItem}
             keyExtractor={(item) => item._id}
-            data={this.state.contacts}
+            data={this.state.users}
             style={styles.FlatList}
           />
         </View>
@@ -135,5 +155,15 @@ const styles = StyleSheet.create({
     color: '#262626',
     fontWeight: '600',
     marginBottom: 20,
+  },
+  itemContainter: {
+    backgroundColor: 'rgba(235, 228, 228, 0.8)',
+    marginBottom: 20,
+    borderRadius: 20,
+  },
+  insider: {
+    alignSelf: 'center',
+    fontSize: 15,
+    marginTop: 5,
   },
 });
