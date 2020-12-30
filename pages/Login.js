@@ -66,7 +66,7 @@ export default class Login extends Component {
           if (this.state.user.userType == 'user') {
             this.props.navigation.navigate('AppNavigator');
           } else {
-            this.props.navigation.navigate('SignUp');
+            this.props.navigation.navigate('AppNavigatorD');
           }
         });
       })

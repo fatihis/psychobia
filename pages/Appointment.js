@@ -16,7 +16,7 @@ import {
 
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
-
+import AppointmentData from './AppointmentData';
 import Data from './components/Data';
 import {Alert} from 'react-native';
 export default class Appointment extends Component {
@@ -32,33 +32,20 @@ export default class Appointment extends Component {
       setUsers: [],
     };
   }
+  render() {
+    return <AppointmentData></AppointmentData>;
+  }
 
-  getAppointment = async () => {
+  /*getAppointment = async () => {
     const currentUid = auth().currentUser.uid;
     firestore()
       .collection('Appointment')
       .where('uidUser', '==', currentUid)
       .get()
       .then((querySnapshot) => {
-        console.log('Total users: ', querySnapshot.size);
+        console.log('Total Appointments: ', querySnapshot.size);
 
         querySnapshot.forEach((documentSnapshot) => {
-          console.log(
-            'User ID: ',
-            documentSnapshot.id,
-            documentSnapshot.data(),
-          );
-          /*this.setState({appUserUid: documentSnapshot.data().uidUser});
-          this.setState({
-            appConsultantUid: documentSnapshot.data().uidConsultant,
-          });
-          this.setState({
-            appDate: documentSnapshot.data().appDate,
-          });
-          console.log('state', this.state.appUserUid);
-          console.log('state', this.state.appDate);
-          console.log('state', this.state.appConsultantUid);*/
-          //çok sayıda yapmak için yukarıdaki foreachi kullanmayı unutma
           this.state.users.push({
             ...documentSnapshot.data(),
             key: documentSnapshot.id,
@@ -71,48 +58,30 @@ export default class Appointment extends Component {
   componentDidMount() {
     this.getAppointment();
   }
-  /*ListItem = ({item, index}) => {
+  ListItem = ({item, index}) => {
     return (
       <TouchableOpacity
         onPress={() => this.itemOnPress}
         style={styles.ItemComp}>
-        <Image style={styles.ItemImage} source={{uri: item.picture}}></Image>
-        <View style={styles.ItemTextWrapper}>
-          <Text>{item.name}</Text>
-          <Text>{item.star}</Text>
-        </View>
+        <Text>{item.uidUser}</Text>
+        <Text>{item.uidConsultant}</Text>
       </TouchableOpacity>
     );
-  };*/
+  };
   render() {
     return (
       <ImageBackground
         source={require('./assets/appointmentbg.jpg')}
         style={styles.bgimage}>
-        <View style={styles.MainContainer}>
-          <Text style={styles.appointmentsText}>Appointments</Text>
-          <FlatList
-            renderItem={({item}) => (
-              <View
-                style={{
-                  height: 50,
-                  flex: 1,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <Text>Consultant ID: {item.uidConsultant}</Text>
-                <Text> User ID: {item.uidUser}</Text>
-                <Text> User ID: {item.appDate}</Text>
-              </View>
-            )}
-            keyExtractor={(item) => item._id}
-            data={Data}
-            style={styles.FlatList}
-          />
-        </View>
+        <FlatList
+          renderItem={({item}) => this.ListItem}
+          keyExtractor={(item) => item.uidUser}
+          data={this.state.users}
+          style={styles.FlatList}
+        />
       </ImageBackground>
     );
-  }
+  }*/
 }
 const styles = StyleSheet.create({
   bgimage: {
@@ -120,6 +89,9 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
     justifyContent: 'center',
     paddingHorizontal: 30,
+  },
+  MainContainer: {
+    flex: 1,
   },
   appointmentsText: {
     alignSelf: 'center',
@@ -129,24 +101,10 @@ const styles = StyleSheet.create({
   FlatList: {
     marginTop: 30,
     flex: 1,
-    backgroundColor: 'red',
   },
   ItemComp: {
-    width: '100%',
-    height: 80,
-    backgroundColor: 'rgba(235, 228, 228, 0.8)',
-    paddingVertical: 10,
-    paddingHorizontal: 10,
-    marginVertical: 10,
     flex: 1,
-    flexDirection: 'row',
-    borderRadius: 30,
+    backgroundColor: 'red',
   },
   ItemTextWrapper: {justifyContent: 'space-around'},
-  ItemImage: {
-    width: 50,
-    height: '100%',
-    marginHorizontal: 10,
-    borderRadius: 10,
-  },
 });

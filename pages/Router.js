@@ -6,6 +6,7 @@ import Login from './Login';
 import SingUp from './SingUp';
 import MainPage from './MainPage';
 import TabsNavigator from './TabsNavigator';
+import TabsNavigatorDanisman from './TabsNavigatorDanisman';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {Input, CheckBox} from 'react-native-elements';
 import {fromLeft} from 'react-navigation-transitions';
@@ -39,6 +40,7 @@ const AppNavigatorr = createStackNavigator(
       },
     },
     AppNavigator: TabsNavigator,
+    AppNavigatorD: TabsNavigatorDanisman,
   },
   {
     initialRouteName: 'Login',

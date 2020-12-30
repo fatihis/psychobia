@@ -16,6 +16,10 @@ import {
 import Data from './components/Data';
 
 export default class Search extends Component {
+  state = {
+    text: '',
+    contacts: Data,
+  };
   itemOnPress(item) {
     alert('item: ' + item._id);
   }
@@ -32,25 +36,50 @@ export default class Search extends Component {
       </TouchableOpacity>
     );
   };
+  searchFilter = (text) => {
+    const newData = Data.filter((item) => {
+      const listItem = `${item.name.toLowerCase()} ${item.star.toLowerCase()}`;
+      return listItem.indexOf(text.toLowerCase()) > -1;
+    });
+    this.setState({
+      contacts: newData,
+    });
+  };
+  renderHeader = () => {
+    const {text} = this.state;
+    return (
+      <View styele={styles.searchContainer}>
+        <TextInput
+          onChangeText={(text) => {
+            this.setState({
+              text,
+            });
+            this.searchFilter(text);
+          }}
+          value={text}
+          placeholder="Danışman ara"
+          style={styles.searchInput}
+        />
+      </View>
+    );
+  };
 
-  
   render() {
     return (
       <ImageBackground
         source={require('./assets/searchbg.jpg')}
         style={styles.bgimage}>
-       
-         <View style={styles.MainContainer}>
+        <View style={styles.MainContainer}>
           <Text style={styles.danisanlarText}>Danışmanlar</Text>
           <FlatList
+            ListHeaderComponent={this.renderHeader()}
             renderItem={this.ListItem}
             keyExtractor={(item) => item._id}
-            data={Data}
+            data={this.state.contacts}
             style={styles.FlatList}
           />
         </View>
       </ImageBackground>
-      
     );
   }
 }
@@ -79,7 +108,6 @@ const styles = StyleSheet.create({
   },
   FlatList: {
     marginTop: 30,
-    
   },
   ItemImage: {
     width: 50,
@@ -93,5 +121,19 @@ const styles = StyleSheet.create({
     fontSize: 35,
     marginTop: 20,
   },
-  
+  searchContainer: {
+    padding: 10,
+  },
+  searchInput: {
+    fontSize: 14,
+    backgroundColor: '#ECE7E7',
+    padding: 10,
+    height: 38,
+    borderWidth: 2,
+    borderRadius: 8,
+    borderColor: '#cacaca',
+    color: '#262626',
+    fontWeight: '600',
+    marginBottom: 20,
+  },
 });
