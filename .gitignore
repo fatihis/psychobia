@@ -62,3 +62,4 @@ buck-out/
 /ios/Pods/
 /android/app/google-services.json
 .eslintrc.js
+/yarn.lock
