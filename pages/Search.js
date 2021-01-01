@@ -65,7 +65,7 @@ export default class Search extends Component {
   renderHeader = () => {
     const {text} = this.state;
     return (
-      <View styele={styles.searchContainer}>
+      <View style={styles.searchContainer}>
         <TextInput
           onChangeText={(text) => {
             this.setState({
