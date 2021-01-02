@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   TextInput,
   FlatList,
+
 } from 'react-native';
 
 import firestore from '@react-native-firebase/firestore';
@@ -29,7 +30,7 @@ export default class Search extends Component {
         querySnapshot.forEach((documentSnapshot) => {
           users.push({
             ...documentSnapshot.data(),
-            key: documentSnapshot.name,
+            key: documentSnapshot.uid,
           });
         });
         this.setState({users: users});
@@ -37,9 +38,11 @@ export default class Search extends Component {
       });
     return () => subscriber();
   }
-  ListItem = ({item, index}) => {
+   ListItem = ({item, index}) => {
     return (
-      <TouchableOpacity style={styles.itemContainter}>
+      <TouchableOpacity 
+      style={styles.itemContainter}
+      onPress= {() => this.props.navigation.navigate('Modal')}>
         <View
           style={{
             height: 60,
@@ -82,6 +85,7 @@ export default class Search extends Component {
   };
 
   render() {
+    
     if (this.state.loading) {
       return <ActivityIndicator />;
     }
@@ -94,7 +98,7 @@ export default class Search extends Component {
           <FlatList
             ListHeaderComponent={this.renderHeader()}
             renderItem={this.ListItem}
-            keyExtractor={(item) => item._id}
+            keyExtractor={(item) => item.uid}
             data={this.state.users}
             style={styles.FlatList}
           />
