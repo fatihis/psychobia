@@ -11,7 +11,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {Input, CheckBox} from 'react-native-elements';
 import {fromLeft} from 'react-navigation-transitions';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
-
+import ModalScreen from './ModalScreen'
 //
 class LoginNavigator extends Component {
   render() {
@@ -25,7 +25,7 @@ class LoginNavigator extends Component {
     headerShown: false,},
   },*/
 
-const AppNavigatorr = createStackNavigator(
+const MainStack = createStackNavigator(
   {
     SignUp: {
       screen: SingUp,
@@ -51,4 +51,13 @@ const AppNavigatorr = createStackNavigator(
   },
 );
 
-export default createAppContainer(AppNavigatorr);
+const ModalStack = createStackNavigator({
+  Main: MainStack,
+  Modal: ModalScreen,
+},
+{
+mode: 'modal',
+headerMode: 'none',
+}
+);
+export default createAppContainer(ModalStack);
