@@ -1,4 +1,5 @@
 import React, {Component, useState} from 'react';
+//import {observable} from 'mobx-react';
 import {
   StyleSheet,
   View,
@@ -7,7 +8,6 @@ import {
   TouchableOpacity,
   TextInput,
   FlatList,
-
 } from 'react-native';
 
 import firestore from '@react-native-firebase/firestore';
@@ -17,8 +17,8 @@ export default class Search extends Component {
     text: '',
     users: [],
   };
-  itemOnPress(item) {
-    alert('item: ' + item._id);
+  itemOnPress(itemUid) {
+    this.props.navigation.navigate('Modal', {itemId: itemUid});
   }
   componentDidMount() {
     const subscriber = firestore()
@@ -30,7 +30,7 @@ export default class Search extends Component {
         querySnapshot.forEach((documentSnapshot) => {
           users.push({
             ...documentSnapshot.data(),
-            key: documentSnapshot.uid,
+            key: documentSnapshot.data().uid,
           });
         });
         this.setState({users: users});
@@ -38,11 +38,11 @@ export default class Search extends Component {
       });
     return () => subscriber();
   }
-   ListItem = ({item, index}) => {
+  ListItem = ({item, index}) => {
     return (
-      <TouchableOpacity 
-      style={styles.itemContainter}
-      onPress= {() => this.props.navigation.navigate('Modal')}>
+      <TouchableOpacity
+        style={styles.itemContainter}
+        onPress={() => this.itemOnPress(item.uid)}>
         <View
           style={{
             height: 60,
@@ -85,7 +85,6 @@ export default class Search extends Component {
   };
 
   render() {
-    
     if (this.state.loading) {
       return <ActivityIndicator />;
     }
