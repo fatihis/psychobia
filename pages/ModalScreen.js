@@ -3,11 +3,12 @@ import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 //import {observer} from 'mobx-react';
 
-import DatePicker from 'react-datepicker';
-
+//import DatePicker from 'react-datepicker';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+import moment from 'moment';
 function ModalScreen({navigation}) {
   const consUid = navigation.getParam('itemId');
-  const [startDate, setStartDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(null);
 
   let handleColor = (time) => {
     return time.getHours() > 12 ? 'text-success' : 'text-error';
@@ -29,20 +30,40 @@ function ModalScreen({navigation}) {
     return () => subscriber();
   }, [consUid]);
 
+  const [isVisible,setIsVisible] = useState(false);
+  const [chosenDate,setChosenDate] = useState('');
+  const showPicker = () => {
+    setIsVisible(true)
+ }
+   const hidePicker = (datetime) => {
+      setIsVisible(false) 
+      setChosenDate(moment(datetime).format('MMMM, Do YYYY HH:mm'))
+        
+   }
+   const handlePicker = () => {
+    hidePicker();
+  };
   return (
+    
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       <Text>Details Screen</Text>
       <Text>itemId: {consUid}</Text>
       <Text>Consultant Name: {name}</Text>
       <Text>Point: {point}</Text>
-      <DatePicker
-        showTimeSelect
-        selected={startDate}
-        onChange={(date) => setStartDate(date)}
-        timeClassName={handleColor}
+      <Text>{chosenDate}</Text>
+      <TouchableOpacity style = {styles.button} onPress={showPicker} >
+         <Text style={{color: 'white'}}>Show DatePicker</Text>
+      </TouchableOpacity>
+
+     <DateTimePickerModal
+        isVisible={isVisible}
+        mode="datetime"
+        onConfirm={handlePicker}
+        onCancel={hidePicker}
       />
     </View>
   );
+  
 }
 export default ModalScreen;
 /*export default class ModalScreen extends Component {
@@ -73,5 +94,15 @@ const styles = StyleSheet.create({
     backgroundColor: 'blue',
     width: 100,
     height: 30,
+  },
+  button: {
+    width: 250, 
+    height: 50,
+    backgroundColor: '#330066',
+    justifyContent: 'center',
+    textAlign: 'center',
+    alignItems: 'center',
+    borderRadius: 30,
+    marginTop: 15,
   },
 });
