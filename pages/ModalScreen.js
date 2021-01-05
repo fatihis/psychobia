@@ -1,19 +1,11 @@
 import React, {Component, useEffect, useState} from 'react';
 import {Text, View, StyleSheet, TouchableOpacity} from 'react-native';
 import firestore from '@react-native-firebase/firestore';
-//import {observer} from 'mobx-react';
-
-//import DatePicker from 'react-datepicker';
-import DateTimePickerModal from "react-native-modal-datetime-picker";
+import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import moment from 'moment';
+import auth from '@react-native-firebase/auth';
 function ModalScreen({navigation}) {
   const consUid = navigation.getParam('itemId');
-  const [selectedDate, setSelectedDate] = useState(null);
-
-  let handleColor = (time) => {
-    return time.getHours() > 12 ? 'text-success' : 'text-error';
-  };
-
   const [uid, setUid] = useState('');
   const [name, setName] = useState('');
   const [point, setPoint] = useState(0);
@@ -30,40 +22,56 @@ function ModalScreen({navigation}) {
     return () => subscriber();
   }, [consUid]);
 
-  const [isVisible,setIsVisible] = useState(false);
-  const [chosenDate,setChosenDate] = useState('');
+  const [isVisible, setIsVisible] = useState(false);
+  const [chosenDate, setChosenDate] = useState('');
+  const [consultantName, setConsultantName] = useState('');
   const showPicker = () => {
-    setIsVisible(true)
- }
-   const hidePicker = (datetime) => {
-      setIsVisible(false) 
-      setChosenDate(moment(datetime).format('MMMM, Do YYYY HH:mm'))
-        
-   }
-   const handlePicker = () => {
-    hidePicker();
+    setIsVisible(true);
+  };
+  const hidePicker = (datetime) => {
+    setIsVisible(false);
+    setChosenDate(moment(datetime).format('MMMM, Do YYYY HH:mm'));
+    console.log(chosenDate);
+  };
+  const handlePicker = (datetime) => {
+    hidePicker(datetime);
+  };
+  /* const getConsultantName = async () => {
+    const gotUser = await firestore().collection('Users').doc(consUid).get();
+    console.log('name: ', gotUser);
+    setConsultantName(gotUser.name);
+  };*/
+  const setAppointment = () => {
+    firestore()
+      .collection('Appointment')
+      .add({
+        appDate: firestore.FieldValue.serverTimestamp(chosenDate),
+        nameConsultant: name,
+        uidConsultant: consUid,
+        uidUser: auth().currentUser.uid,
+      });
   };
   return (
-    
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       <Text>Details Screen</Text>
       <Text>itemId: {consUid}</Text>
       <Text>Consultant Name: {name}</Text>
       <Text>Point: {point}</Text>
       <Text>{chosenDate}</Text>
-      <TouchableOpacity style = {styles.button} onPress={showPicker} >
-         <Text style={{color: 'white'}}>Show DatePicker</Text>
+      <TouchableOpacity style={styles.button} onPress={showPicker}>
+        <Text style={{color: 'white'}}>Show DatePicker</Text>
       </TouchableOpacity>
-
-     <DateTimePickerModal
+      <TouchableOpacity style={styles.button} onPress={setAppointment}>
+        <Text style={{color: 'white'}}>Set Appointment</Text>
+      </TouchableOpacity>
+      <DateTimePickerModal
         isVisible={isVisible}
         mode="datetime"
-        onConfirm={handlePicker}
+        onConfirm={(datetime) => handlePicker(datetime)}
         onCancel={hidePicker}
       />
     </View>
   );
-  
 }
 export default ModalScreen;
 /*export default class ModalScreen extends Component {
@@ -96,7 +104,7 @@ const styles = StyleSheet.create({
     height: 30,
   },
   button: {
-    width: 250, 
+    width: 250,
     height: 50,
     backgroundColor: '#330066',
     justifyContent: 'center',
