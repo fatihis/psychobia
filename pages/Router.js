@@ -6,8 +6,10 @@ import SingUp from './SingUp';
 import TabsNavigator from './TabsNavigator';
 import TabsNavigatorDanisman from './TabsNavigatorDanisman';
 
-import ModalScreen from './ModalScreen';
 
+import ModalScreen from './ModalScreen';
+import ModalAppointment from './ModalAppointment';
+import ModalAppointmentDanisman from './ModalAppointmentDanisman';
 //
 class LoginNavigator extends Component {
   render() {
@@ -51,6 +53,9 @@ const ModalStack = createStackNavigator(
   {
     Main: MainStack,
     Modal: ModalScreen,
+    ModalAppointment: ModalAppointment,
+    ModalAppointmentDanisman: ModalAppointmentDanisman,
+
   },
   {
     mode: 'modal',

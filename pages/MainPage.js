@@ -20,6 +20,9 @@ import {
 import Data from './components/Data';
 
 export default class MainPage extends Component {
+  onPress(){
+   alert('Bilgilendirme');
+  }
   render() {
     return (
       <ImageBackground
@@ -47,7 +50,7 @@ export default class MainPage extends Component {
                     textAlign: 'right',
                     width: 230,
                   }}>
-                  Dünyanın her yerinden istediğiniz psikologla görüşebilrisiniz
+                  Dünyanın her yerinden istediğiniz psikologla görüşebilirsiniz
                 </Text>
               </ImageBackground>
             </View>
@@ -77,15 +80,25 @@ export default class MainPage extends Component {
                 marginBottom: 30,
               }}>
               <View style={styles.kutu}>
-                <Text>Bireysel Psikoterapi</Text>
+                <TouchableOpacity
+                onPress={this.onPress}>
+                   <Text>Bireysel Psikoterapi</Text>
+                </TouchableOpacity>
               </View>
+
               <View style={styles.kutu}>
-                <Text>Aile ve Çift Terapisi</Text>
+                <TouchableOpacity>
+                  <Text>Aile ve Çift Terapisi</Text>
+                </TouchableOpacity>
               </View>
+
               <View style={styles.kutu}>
-                <Text>Aile Danışmanlığı</Text>
+                 <TouchableOpacity>
+                 <Text>Aile Danışmanlığı</Text>
+                </TouchableOpacity>
               </View>
             </View>
+            
             <View
               style={{
                 flexDirection: 'row',
@@ -93,15 +106,24 @@ export default class MainPage extends Component {
                 marginBottom: 30,
               }}>
               <View style={styles.kutu}>
-                <Text>İlişki Danışmanlığı</Text>
+              <TouchableOpacity>
+                 <Text>İlişki Danışmanlığı</Text>
+              </TouchableOpacity>
               </View>
+
               <View style={styles.kutu}>
+              <TouchableOpacity>
                 <Text>Bağımlılık Psikoterapisi</Text>
+              </TouchableOpacity>
               </View>
+
               <View style={styles.kutu}>
-                <Text>Psikolojik Travma Psikoterapisi</Text>
+              <TouchableOpacity>
+                  <Text>Psikolojik Travma Psikoterapisi</Text>
+              </TouchableOpacity>
               </View>
             </View>
+            
             <View
               style={{
                 flexDirection: 'row',
@@ -109,15 +131,24 @@ export default class MainPage extends Component {
                 marginBottom: 30,
               }}>
               <View style={styles.kutu}>
-                <Text>Çocuk ve Ergen Danışmanlığı</Text>
+              <TouchableOpacity>
+                 <Text>Çocuk ve Ergen Danışmanlığı</Text>
+              </TouchableOpacity>
               </View>
+
               <View style={styles.kutu}>
+              <TouchableOpacity>
                 <Text>Öfke Kontrolü Psikoterapisi</Text>
+              </TouchableOpacity>
               </View>
+
               <View style={styles.kutu}>
+              <TouchableOpacity>
                 <Text>Tükenmişlik Sendromu Psikoterapisi</Text>
+              </TouchableOpacity>
               </View>
             </View>
+
             <View
               style={{
                 flexDirection: 'row',
@@ -125,15 +156,24 @@ export default class MainPage extends Component {
                 marginBottom: 30,
               }}>
               <View style={styles.kutu}>
-                <Text>Panik Atak / Anksiyete Psikoterapisi</Text>
+              <TouchableOpacity>
+                 <Text>Panik Atak / Anksiyete Psikoterapisi</Text>
+              </TouchableOpacity>
               </View>
+
               <View style={styles.kutu}>
+              <TouchableOpacity>
                 <Text>Depresyon Psikoterapisi</Text>
+              </TouchableOpacity>
               </View>
+
               <View style={styles.kutu}>
-                <Text>Özgüven Eksikliği Psikoterapisi</Text>
+              <TouchableOpacity>
+                 <Text>Özgüven Eksikliği Psikoterapisi</Text>
+              </TouchableOpacity>
               </View>
             </View>
+
             <View
               style={{
                 flexDirection: 'row',
@@ -141,19 +181,28 @@ export default class MainPage extends Component {
                 marginBottom: 30,
               }}>
               <View style={styles.kutu}>
+              <TouchableOpacity>
                 <Text>Ölüm ve Kayıp Sonrası Yas Terapisi</Text>
+              </TouchableOpacity>
               </View>
+
               <View style={styles.kutu}>
-                <Text>Sosyal Fobi Psikoterapisi</Text>
+              <TouchableOpacity>
+                 <Text>Sosyal Fobi Psikoterapisi</Text>
+              </TouchableOpacity>
               </View>
+
               <View style={styles.kutu}>
+              <TouchableOpacity>
                 <Text>
                   Üniversite, Okul, Kurum ve Şirketler İçin Psikolojik
                   Danışmanlık
                 </Text>
+              </TouchableOpacity>
               </View>
             </View>
           </View>
+          
         </ScrollView>
       </ImageBackground>
     );
@@ -207,6 +256,7 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 320,
     marginBottom: 10,
+    backgroundColor:'red'
   },
 
   slide1: {

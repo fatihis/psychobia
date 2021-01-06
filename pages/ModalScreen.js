@@ -40,8 +40,8 @@ function ModalScreen({navigation}) {
       setChosenDate(moment(datetime).format('MMMM, Do YYYY HH:mm'))
         
    }
-   const handlePicker = () => {
-    hidePicker();
+   const handlePicker = (datetime) => {
+    hidePicker(datetime);
   };
   return (
     
@@ -60,7 +60,9 @@ function ModalScreen({navigation}) {
         mode="datetime"
         onConfirm={handlePicker}
         onCancel={hidePicker}
+    
       />
+    
     </View>
   );
   

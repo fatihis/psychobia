@@ -3,6 +3,7 @@ import {Text, View} from 'react-native';
 import MainPage from './MainPage';
 import Search from './Search';
 import Appointment from './Appointment';
+import AppointmentData from './AppointmentData'
 import Profile from './Profile';
 import {createStackNavigator} from 'react-navigation-stack';
 import {AppContainer, createAppContainer} from 'react-navigation';
@@ -36,7 +37,7 @@ const TabNavigator = createBottomTabNavigator(
         ),
       },
     },
-    Appointment: {
+   Appointment: {
       screen: Appointment,
       navigationOptions: {
         headerShown: false,

@@ -10,11 +10,15 @@ import {
 } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
-import Moment from 'react-moment';
 import moment from 'moment';
-//ayşegüle kurulacak
+
 
 function AppointmentData() {
+
+ 
+  function itemOnPress(itemUid) {
+ 
+  }
   const [loading, setLoading] = useState(true);
   const [users, setUsers] = useState([]);
   const currentUid = auth().currentUser.uid;
@@ -49,7 +53,8 @@ function AppointmentData() {
       <FlatList
         data={users}
         renderItem={({item}) => (
-          <TouchableOpacity style={styles.itemContainter}>
+          <TouchableOpacity style={styles.itemContainter}
+          onPress={itemOnPress(item)}>
             <View
               style={{
                 height: 60,
