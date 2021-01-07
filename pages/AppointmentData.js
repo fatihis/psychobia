@@ -66,7 +66,8 @@ function AppointmentData() {
                 Consultant Name: {item.nameConsultant}
               </Text>
               <Text style={styles.insider}>
-                Date: {moment(item.appDate.toDate()).format('MMMM Do YYYY, h:mm:ss')}
+                Date:
+                {moment(item.appDate.toDate()).format('MMMM, Do YYYY HH:mm')}
               </Text>
             </View>
           </TouchableOpacity>
