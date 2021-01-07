@@ -36,7 +36,7 @@ export default class AppointmentDanisman extends Component {
     const currentUid = auth().currentUser.uid;
     const subscriber = firestore()
       .collection('Appointment')
-      .where('uidUser', '==', currentUid)
+      .where('uidConsultant', '==', currentUid)
       .onSnapshot((querySnapshot) => {
         const users = [];
 
