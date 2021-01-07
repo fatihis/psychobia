@@ -123,6 +123,7 @@ export default class Login extends Component {
                   }>
                   <Text style={styles.loginText}>GİRİŞ</Text>
                 </TouchableOpacity>
+                <View style = {styles.kayit}>
                 <Text style={styles.kayitText}>
                   Henüz kayıt olmadınız mı?{' '}
                   <Text
@@ -131,6 +132,7 @@ export default class Login extends Component {
                     Tıklayın
                   </Text>
                 </Text>
+                </View>
               </View>
               <TouchableOpacity
                 style={styles.userGiris}
@@ -208,10 +210,17 @@ const styles = StyleSheet.create({
   kayitText: {
     paddingTop: 9,
     fontSize: 13,
+    textAlign: 'center',
   },
   kayitTiklaText: {
     color: 'purple',
+    textAlign: 'center',
   },
+ /* kayit: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
+  },*/
   loginButton: {
     marginTop: 20,
     width: '100%',
@@ -220,7 +229,9 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 20,
   },
-  loginText: {textAlign: 'center'},
+  loginText: {
+    textAlign: 'center'
+  },
   loginPart: {
     flex: 6,
     alignItems: 'flex-start',

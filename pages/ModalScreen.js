@@ -26,6 +26,8 @@ function ModalScreen({navigation}) {
   const [chosenDate, setChosenDate] = useState('');
   const [consultantName, setConsultantName] = useState('');
   const showPicker = () => {
+
+
     setIsVisible(true);
   };
   const hidePicker = (datetime) => {
@@ -69,7 +71,9 @@ function ModalScreen({navigation}) {
         mode="datetime"
         onConfirm={(datetime) => handlePicker(datetime)}
         onCancel={hidePicker}
+    
       />
+    
     </View>
   );
 }

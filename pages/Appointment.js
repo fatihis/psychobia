@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, setState} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -19,69 +19,79 @@ import auth from '@react-native-firebase/auth';
 import AppointmentData from './AppointmentData';
 import Data from './components/Data';
 import {Alert} from 'react-native';
+import moment from 'moment';
+
 export default class Appointment extends Component {
+  itemOnPress= (item)=>{
+    this.props.navigation.navigate('ModalAppointment');
+  }
   constructor(props) {
     super(props);
     this.state = {
-      password: '',
-      accepted: true,
       appUserUid: '',
       appConsultantUid: '',
       appDate: '',
-      users: [],
-      setUsers: [],
+      usersL: [],
     };
   }
-  render() {
-    return <AppointmentData></AppointmentData>;
-  }
-
-  /*getAppointment = async () => {
+  componentDidMount(){
     const currentUid = auth().currentUser.uid;
-    firestore()
+    const subscriber = firestore()
       .collection('Appointment')
       .where('uidUser', '==', currentUid)
-      .get()
-      .then((querySnapshot) => {
-        console.log('Total Appointments: ', querySnapshot.size);
+      .onSnapshot((querySnapshot) => {
+        const users = [];
 
         querySnapshot.forEach((documentSnapshot) => {
-          this.state.users.push({
+          users.push({
             ...documentSnapshot.data(),
             key: documentSnapshot.id,
           });
-
-          console.log('liste', this.state.users);
         });
+
+        this.setState({usersL:users});
+        console.log(this.state.usersL);
+    
       });
-  };
-  componentDidMount() {
-    this.getAppointment();
+
+    return () => subscriber();
   }
-  ListItem = ({item, index}) => {
-    return (
-      <TouchableOpacity
-        onPress={() => this.itemOnPress}
-        style={styles.ItemComp}>
-        <Text>{item.uidUser}</Text>
-        <Text>{item.uidConsultant}</Text>
-      </TouchableOpacity>
-    );
-  };
+ 
+  
   render() {
-    return (
-      <ImageBackground
-        source={require('./assets/appointmentbg.jpg')}
-        style={styles.bgimage}>
-        <FlatList
-          renderItem={({item}) => this.ListItem}
-          keyExtractor={(item) => item.uidUser}
-          data={this.state.users}
-          style={styles.FlatList}
-        />
-      </ImageBackground>
-    );
-  }*/
+    
+   return(
+    <ImageBackground
+    source={require('./assets/appointmentbg.jpg')}
+    style={styles.bgimage}>
+
+  <FlatList
+        data={this.state.usersL}
+        renderItem={({item}) => (
+          <TouchableOpacity style={styles.itemContainter}
+          onPress={()=>this.itemOnPress(item)}>
+            <View
+              style={{
+                height: 60,
+                flex: 1,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <Text style={styles.insider}>
+                Consultant Name: {item.nameConsultant}
+              </Text>
+              <Text style={styles.insider}>
+                Date: {moment(item.appDate.toDate()).format('MMMM Do YYYY, h:mm:ss')}
+              </Text>
+            </View>
+          </TouchableOpacity>
+        )}
+      />
+  </ImageBackground>
+   )
+  }
+
+  
 }
 const styles = StyleSheet.create({
   bgimage: {
@@ -107,4 +117,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'red',
   },
   ItemTextWrapper: {justifyContent: 'space-around'},
+  insider: {
+    alignSelf: 'center',
+    fontSize: 15,
+    marginTop: 5,
+  },
+  itemContainter: {
+    backgroundColor: 'rgba(235, 228, 228, 0.8)',
+    marginBottom: 20,
+  },
 });
