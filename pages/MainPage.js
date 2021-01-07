@@ -23,6 +23,25 @@ export default class MainPage extends Component {
   onPress(){
    alert('Bilgilendirme');
   }
+  onPress1(){
+    alert('Bilgilendirme1');
+   }
+   onPress2(){
+    alert('Bilgilendirme2');
+   }
+   onPress3(){
+    alert('Bilgilendirme3');
+   }
+   onPress4(){
+    alert('Bilgilendirme4');
+   }
+   onPress5(){
+    alert('Bilgilendirme5');
+   }
+   onPress6(){
+    alert('Bilgilendirme6');
+   }
+
   render() {
     return (
       <ImageBackground
@@ -37,7 +56,7 @@ export default class MainPage extends Component {
             buttonWrapperStyle={{
               alignItems: 'flex-start',
               marginTop: 130,
-              color: 'red',
+              color: '#ffffff',
             }}>
             <View style={styles.slide1}>
               <ImageBackground
@@ -87,13 +106,15 @@ export default class MainPage extends Component {
               </View>
 
               <View style={styles.kutu}>
-                <TouchableOpacity>
+                <TouchableOpacity
+                onPress={this.onPress1}>
                   <Text>Aile ve Çift Terapisi</Text>
                 </TouchableOpacity>
               </View>
 
               <View style={styles.kutu}>
-                 <TouchableOpacity>
+                 <TouchableOpacity
+                 onPress={this.onPress2}>
                  <Text>Aile Danışmanlığı</Text>
                 </TouchableOpacity>
               </View>
@@ -106,19 +127,22 @@ export default class MainPage extends Component {
                 marginBottom: 30,
               }}>
               <View style={styles.kutu}>
-              <TouchableOpacity>
+              <TouchableOpacity
+              onPress={this.onPress3}>
                  <Text>İlişki Danışmanlığı</Text>
               </TouchableOpacity>
               </View>
 
               <View style={styles.kutu}>
-              <TouchableOpacity>
+              <TouchableOpacity
+              onPress={this.onPress4}>
                 <Text>Bağımlılık Psikoterapisi</Text>
               </TouchableOpacity>
               </View>
 
               <View style={styles.kutu}>
-              <TouchableOpacity>
+              <TouchableOpacity
+              onPress={this.onPress5}>
                   <Text>Psikolojik Travma Psikoterapisi</Text>
               </TouchableOpacity>
               </View>
@@ -131,7 +155,8 @@ export default class MainPage extends Component {
                 marginBottom: 30,
               }}>
               <View style={styles.kutu}>
-              <TouchableOpacity>
+              <TouchableOpacity
+              onPress={this.onPress6}>
                  <Text>Çocuk ve Ergen Danışmanlığı</Text>
               </TouchableOpacity>
               </View>
@@ -253,10 +278,8 @@ const styles = StyleSheet.create({
   },
 
   wrapper: {
-    flex: 1,
     height: 320,
     marginBottom: 10,
-    backgroundColor:'red'
   },
 
   slide1: {
