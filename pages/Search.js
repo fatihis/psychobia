@@ -18,7 +18,7 @@ export default class Search extends Component {
     users: [],
   };
   itemOnPress(itemUid) {
-    this.props.navigation.navigate('Modal', {itemId: itemUid});
+    this.props.navigation.navigate('ModalScreenSearch', {itemId: itemUid});
   }
   componentDidMount() {
     const subscriber = firestore()

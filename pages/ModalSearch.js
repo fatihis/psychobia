@@ -4,7 +4,7 @@ import firestore from '@react-native-firebase/firestore';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import moment from 'moment';
 import auth from '@react-native-firebase/auth';
-function ModalScreen({navigation}) {
+function ModalSearch({navigation}) {
   const consUid = navigation.getParam('itemId');
   const [uid, setUid] = useState('');
   const [name, setName] = useState('');
@@ -73,7 +73,7 @@ function ModalScreen({navigation}) {
     </View>
   );
 }
-export default ModalScreen;
+export default ModalSearch;
 /*export default class ModalScreen extends Component {
   render() {
     const {goBack, itemId} = this.props.navigation;

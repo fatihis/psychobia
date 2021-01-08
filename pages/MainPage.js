@@ -58,7 +58,7 @@ export default class MainPage extends Component {
               marginTop: 130,
               color: '#ffffff',
             }}>
-            <View style={styles.slide1}>
+           <View style={styles.slide1}>
               <ImageBackground
                 source={require('./assets/pexels-artem-podrez-4492189.png')}
                 style={styles.slider}>
@@ -86,7 +86,9 @@ export default class MainPage extends Component {
               <ImageBackground
                 source={require('./assets/pexels-karolina-grabowska-4491440.png')}
                 style={styles.slider}>
-                <Text style={{}}></Text>
+                <Text style={{marginTop: 55, marginLeft: 40, width: 120}}>
+                  Sizin için en uygun psikoloğu seçebilirsiniz
+                </Text>
               </ImageBackground>
             </View>
           </Swiper>
