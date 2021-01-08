@@ -39,7 +39,7 @@ const createRoom = async () => {
   const roomRef = await firestore().collection('Rooms').add(roomWithOffer);
   const roomId = roomRef.id;
 };
-function ModalAppointment({navigation}) {
+function ModalAppointmentUser({navigation}) {
   itemKey = navigation.getParam('itemKey');
   const [uidUser, setUidUser] = useState('');
   const [uidConsultant, setUidConsultant] = useState(0);
@@ -67,4 +67,4 @@ function ModalAppointment({navigation}) {
     </View>
   );
 }
-export default ModalAppointment;
+export default ModalAppointmentUser;

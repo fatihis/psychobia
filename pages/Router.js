@@ -7,8 +7,8 @@ import TabsNavigator from './TabsNavigator';
 import TabsNavigatorDanisman from './TabsNavigatorDanisman';
 
 
-import ModalScreen from './ModalScreen';
-import ModalAppointment from './ModalAppointment';
+import ModalSearch from './ModalSearch';
+import ModalAppointmentUser from './ModalAppointmentUser';
 import ModalAppointmentDanisman from './ModalAppointmentDanisman';
 //
 class LoginNavigator extends Component {
@@ -52,8 +52,8 @@ const MainStack = createStackNavigator(
 const ModalStack = createStackNavigator(
   {
     Main: MainStack,
-    Modal: ModalScreen,
-    ModalAppointment: ModalAppointment,
+    ModalScreenSearch: ModalSearch,
+    ModalAppointmentUser: ModalAppointmentUser,
     ModalAppointmentDanisman: ModalAppointmentDanisman,
 
   },

@@ -24,7 +24,7 @@ import moment from 'moment';
 export default class Appointment extends Component {
   itemOnPress = (itemK) => {
     console.log(itemK);
-    this.props.navigation.navigate('ModalAppointment', {itemKey: itemK});
+    this.props.navigation.navigate('ModalAppointmentUser', {itemKey: itemK});
   };
   constructor(props) {
     super(props);
