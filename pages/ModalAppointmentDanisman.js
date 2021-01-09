@@ -2,13 +2,14 @@ import React, {Component, useEffect, useState} from 'react';
 import {Text, View} from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 function ModalAppointmentDanisman({navigation}) {
-  itemKey = navigation.getParam('itemId');
+  itemK = navigation.getParam('itemK');
   const [uidUser, setUidUser] = useState('');
   const [uidConsultant, setUidConsultant] = useState('');
   useEffect(() => {
+    console.log('itemk:', itemK);
     const subscriber = firestore()
       .collection('Appointment')
-      .doc(itemKey)
+      .doc(itemK)
       .onSnapshot((documentSnapshot) => {
         console.log('User data: ', documentSnapshot.data());
         setUidUser(documentSnapshot.data().uidUser);
@@ -16,7 +17,7 @@ function ModalAppointmentDanisman({navigation}) {
       });
 
     return () => subscriber();
-  }, [itemKey]);
+  }, [itemK]);
 
   return (
     <View>
