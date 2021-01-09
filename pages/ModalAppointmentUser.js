@@ -1,44 +1,28 @@
 import React, {Component, useEffect, useState} from 'react';
-import {Text, View, TouchableOpacity} from 'react-native';
-import firestore from '@react-native-firebase/firestore';
 import {
-  RTCView,
-  mediaDevices,
-  MediaStream,
-  MediaStreamConstraints,
+  Text,
+  View,
+  TouchableOpacity,
+  StyleSheet,
+  SafeAreaView,
+  RecyclerViewBackedScrollView,
+} from 'react-native';
+import firestore from '@react-native-firebase/firestore';
+import RoomScreen from './screens/RoomScreen';
+import CallScreen from './screens/CallScreen';
+import JoinScreen from './screens/JoinScreen';
+
+import {
   RTCPeerConnection,
+  RTCIceCandidate,
+  RTCSessionDescription,
+  RTCView,
+  MediaStream,
+  MediaStreamTrack,
+  mediaDevices,
+  registerGlobals,
 } from 'react-native-webrtc';
 
-const configuration = {
-  iceServers: [
-    {
-      urls: ['stun:stun1.l.google.com:19302', 'stun:stun2.l.google.com:19302'],
-    },
-  ],
-  iceCandidatePoolSize: 10,
-};
-
-let peerConnection = null;
-let localStream = null;
-let remoteStream = null;
-let roomDialog = null;
-let roomId = null;
-
-const createRoom = async () => {
-  peerConnection = new RTCPeerConnection(configuration);
-  const offer = await peerConnection.createOffer();
-  await peerConnection.setLocalDescription(offer);
-
-  const roomWithOffer = {
-    offer: {
-      type: offer.type,
-      sdp: offer.sdp,
-    },
-  };
-  console.log(roomWithOffer);
-  const roomRef = await firestore().collection('Rooms').add(roomWithOffer);
-  const roomId = roomRef.id;
-};
 function ModalAppointmentUser({navigation}) {
   itemKey = navigation.getParam('itemKey');
   const [uidUser, setUidUser] = useState('');
@@ -56,15 +40,52 @@ function ModalAppointmentUser({navigation}) {
     return () => subscriber();
   }, [itemKey]);
 
-  return (
-    <View>
-      <Text> textInComponent {uidUser} </Text>
-      <TouchableOpacity
-        onPress={createRoom}
-        style={{height: 100, width: 200, backgroundColor: 'red'}}>
-        <Text>Start a Call</Text>
-      </TouchableOpacity>
-    </View>
-  );
+  const screens = {
+    ROOM: 'JOIN_ROOM',
+    CALL: 'CALL',
+    JOIN: 'JOIN',
+  };
+
+  const [screen, setScreen] = useState(screens.ROOM);
+  const [roomId, setRoomId] = useState('');
+
+  let content;
+
+  switch (screen) {
+    case screens.ROOM:
+      content = (
+        <RoomScreen
+          roomId={roomId}
+          setRoomId={setRoomId}
+          screens={screens}
+          setScreen={setScreen}
+        />
+      );
+      break;
+
+    case screens.CALL:
+      content = (
+        <CallScreen roomId={roomId} screens={screens} setScreen={setScreen} />
+      );
+      break;
+
+    case screens.JOIN:
+      content = (
+        <JoinScreen roomId={roomId} screens={screens} setScreen={setScreen} />
+      );
+      break;
+
+    default:
+      content = <Text>Wrong Screen</Text>;
+  }
+
+  return <SafeAreaView style={styles.container}>{content}</SafeAreaView>;
 }
 export default ModalAppointmentUser;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 10,
+  },
+});
