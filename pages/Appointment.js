@@ -62,6 +62,7 @@ export default class Appointment extends Component {
       <ImageBackground
         source={require('./assets/appointmentbg.jpg')}
         style={styles.bgimage}>
+      
         <FlatList
           data={this.state.usersL}
           renderItem={({item}) => (
@@ -88,6 +89,7 @@ export default class Appointment extends Component {
             </TouchableOpacity>
           )}
         />
+     
       </ImageBackground>
     );
   }

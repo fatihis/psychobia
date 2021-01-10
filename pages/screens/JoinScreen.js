@@ -56,13 +56,15 @@ export default function JoinScreen({ setScreen, screens, roomId }) {
         facingMode,
         optional: videoSourceId ? [{ sourceId: videoSourceId }] : [],
       },
+     
     };
     const newStream = await mediaDevices.getUserMedia(constraints);
     setLocalStream(newStream);
   };
-
+  
   const joinCall = async id => {
     const roomRef = await db.collection('rooms').doc(id);
+  
     const roomSnapshot = await roomRef.get();
 
     if (!roomSnapshot.exists) return

@@ -7,6 +7,7 @@ import {
   ImageBackground,
   TouchableOpacity,
   TextInput,
+  ScrollView,
   FlatList,
 } from 'react-native';
 
@@ -92,6 +93,7 @@ export default class Search extends Component {
       <ImageBackground
         source={require('./assets/searchbg.jpg')}
         style={styles.bgimage}>
+               
         <View style={styles.MainContainer}>
           <Text style={styles.danisanlarText}>Danışmanlar</Text>
           <FlatList
