@@ -27,7 +27,9 @@ function ModalAppointmentUser({navigation}) {
   itemKey = navigation.getParam('itemKey');
   const [uidUser, setUidUser] = useState('');
   const [uidConsultant, setUidConsultant] = useState(0);
+  const [appointmentId, setAppointmentId] = useState('');
   useEffect(() => {
+    setAppointmentId(itemKey);
     const subscriber = firestore()
       .collection('Appointment')
       .doc(itemKey)
@@ -55,7 +57,7 @@ function ModalAppointmentUser({navigation}) {
     case screens.ROOM:
       content = (
         <RoomScreen
-          roomId={roomId}
+          roomId={appointmentId}
           setRoomId={setRoomId}
           screens={screens}
           setScreen={setScreen}
@@ -65,13 +67,21 @@ function ModalAppointmentUser({navigation}) {
 
     case screens.CALL:
       content = (
-        <CallScreen roomId={roomId} screens={screens} setScreen={setScreen} />
+        <CallScreen
+          roomId={appointmentId}
+          screens={screens}
+          setScreen={setScreen}
+        />
       );
       break;
 
     case screens.JOIN:
       content = (
-        <JoinScreen roomId={roomId} screens={screens} setScreen={setScreen} />
+        <JoinScreen
+          roomId={appointmentId}
+          screens={screens}
+          setScreen={setScreen}
+        />
       );
       break;
 
