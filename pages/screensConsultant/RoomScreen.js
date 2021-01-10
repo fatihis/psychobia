@@ -11,11 +11,9 @@ export default function RoomScreen({setScreen, screens, setRoomId, roomId}) {
   return (
     <>
       <TextInput style={styles.input} value={roomId} onChangeText={setRoomId} />
+
       <View style={styles.buttonContainer}>
-        <Button
-          title="Join Appointment"
-          onPress={() => onCallOrJoin(screens.JOIN)}
-        />
+        <Button title="Call User" onPress={() => onCallOrJoin(screens.CALL)} />
       </View>
     </>
   );
@@ -28,8 +26,6 @@ const styles = StyleSheet.create({
     fontSize: 30,
   },
   input: {
-    margin: 20,
-    height: 40,
     opacity: 0,
     backgroundColor: '#aaa',
   },
