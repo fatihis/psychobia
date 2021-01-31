@@ -28,15 +28,19 @@ function ModalSearch({navigation}) {
   const showPicker = () => {
     setIsVisible(true);
   };
-  const hidePicker = (datetime) => {
+  const hidePicker = () => {
     setIsVisible(false);
-    setChosenDate(moment(datetime).format('MMMM, Do YYYY HH:mm'));
-    console.log(chosenDate);
+ 
   };
   const handlePicker = (datetime) => {
-    hidePicker(datetime);
+    setChosenDate(moment(datetime).format('MMMM, Do YYYY HH:mm'));
+    console.log(chosenDate);
+    hidePicker();
   };
-  /* const getConsultantName = async () => {
+
+
+
+  /*const getConsultantName = async () => {
     const gotUser = await firestore().collection('Users').doc(consUid).get();
     console.log('name: ', gotUser);
     setConsultantName(gotUser.name);
@@ -49,8 +53,11 @@ function ModalSearch({navigation}) {
         nameConsultant: name,
         uidConsultant: consUid,
         uidUser: auth().currentUser.uid,
+ 
       });
+     
   };
+
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       <Text>Details Screen</Text>

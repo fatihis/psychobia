@@ -58,7 +58,7 @@ const MainStack = createStackNavigator(
 const ModalStack = createStackNavigator(
   {
     Main: MainStack,
-    ModalScreenSearch: ModalSearch,
+    ModalSearch: ModalSearch,
     ModalAppointmentUser: ModalAppointmentUser,
     ModalAppointmentDanisman: ModalAppointmentDanisman,
   },
