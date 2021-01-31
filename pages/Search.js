@@ -9,17 +9,18 @@ import {
   TextInput,
   ScrollView,
   FlatList,
+  ActivityIndicator
 } from 'react-native';
-
 import firestore from '@react-native-firebase/firestore';
 
 export default class Search extends Component {
   state = {
     text: '',
     users: [],
+    filters: [],
   };
   itemOnPress(itemUid) {
-    this.props.navigation.navigate('ModalScreenSearch', {itemId: itemUid});
+    this.props.navigation.navigate('ModalSearch', {itemId: itemUid});
   }
   componentDidMount() {
     const subscriber = firestore()
@@ -27,7 +28,7 @@ export default class Search extends Component {
       .where('userType', '==', 'consultant')
       .onSnapshot((querySnapshot) => {
         const users = [];
-
+        
         querySnapshot.forEach((documentSnapshot) => {
           users.push({
             ...documentSnapshot.data(),
@@ -39,6 +40,7 @@ export default class Search extends Component {
       });
     return () => subscriber();
   }
+ 
   ListItem = ({item, index}) => {
     return (
       <TouchableOpacity
@@ -63,46 +65,60 @@ export default class Search extends Component {
       return listItem.indexOf(text.toLowerCase()) > -1;
     });
     this.setState({
-      users: newData,
+      filters: newData,
+
+  
     });
+ 
   };
+
+
   renderHeader = () => {
     const {text} = this.state;
+ 
     return (
       <View style={styles.searchContainer}>
         <TextInput
           onChangeText={(text) => {
             this.setState({
-              text,
+              text
             });
             this.searchFilter(text);
+            
           }}
           value={text}
           placeholder="Danışman ara"
           style={styles.searchInput}
         />
+
       </View>
     );
   };
 
   render() {
+    
     if (this.state.loading) {
       return <ActivityIndicator />;
     }
+    
     return (
+    
       <ImageBackground
         source={require('./assets/searchbg.jpg')}
         style={styles.bgimage}>
                
         <View style={styles.MainContainer}>
           <Text style={styles.danisanlarText}>Danışmanlar</Text>
+          
           <FlatList
             ListHeaderComponent={this.renderHeader()}
             renderItem={this.ListItem}
             keyExtractor={(item) => item.uid}
-            data={this.state.users}
+            data={this.state.filters}
             style={styles.FlatList}
           />
+  
+       
         </View>
       </ImageBackground>
     );
