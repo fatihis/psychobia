@@ -17,11 +17,14 @@
     "@react-native-firebase/firestore": "^10.1.1",
     "@react-navigation/bottom-tabs": "^5.11.2",
     "@react-navigation/native": "^5.8.10",
+    "appointment-picker": "^2.0.0",
     "firebase": "^8.1.2",
     "mobx-react": "^7.0.5",
     "moment": "^2.29.1",
     "react": "16.13.1",
+    "react-appointment-picker": "^3.0.1",
     "react-datepicker": "^3.3.0",
+    "react-day-picker": "^7.4.8",
     "react-dom": "^17.0.1",
     "react-moment": "^1.1.1",
     "react-native": "0.63.4",
@@ -54,5 +57,10 @@
   },
   "jest": {
     "preset": "react-native"
+  },
+  "rnpm": {
+    "assets": [
+      "./assets/fonts/"
+    ]
   }
 }

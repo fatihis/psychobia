@@ -16,25 +16,60 @@ import {
   FlatList,
   AppRegistry,
 } from 'react-native';
-
+import { Alert } from 'react-native'
 import Data from './components/Data';
 
 export default class MainPage extends Component {
   onPress(){
-   alert('Bilgilendirme');
+    Alert.alert(
+      '  Bireysel Psikoterapi', 
+      '  Duygusal çatışma ve duygusal gerilimden kaynaklanan kaygı, ruhsal çökkünlük stres gibi ruhsal sıkıntıları azaltarak kişiyi kaygı ve gerginlikten kurtarma, ruhsal uyum yeteneğini arttırma, sosyal ilişkileri olgunlaştırma yeteneği kazandıran tüm teknik yöntem ve uygulamalardır.' , 
+      [  
+        {  
+            text: 'Kapat',  
+            onPress: () => console.log('Cancel Pressed'),  
+            style: 'cancel',  
+        }
+      ]  
+      );
   }
   onPress1(){
-    alert('Bilgilendirme1');
+    Alert.alert(
+      'Aile ve Çift Terapisi', 
+      'Mesaj İçeriği',
+      [  
+        {  
+            text: 'Kapat',  
+            onPress: () => console.log('Cancel Pressed'),  
+            style: 'cancel',  
+        }
+      ]  
+    );
    }
    onPress2(){
     alert('Bilgilendirme2');
    }
    onPress3(){
-    alert('Bilgilendirme3');
-   }
-   onPress4(){
-    alert('Bilgilendirme4');
-   }
+    Alert.alert(
+      '  İlişki Danışmanlığı',
+      '  İlişki danışmanlığı, her türden çiftin çatışmaları fark edip çözmesine ve ilişkilerini geliştirmesine yardımcı olur. İlişki danışmanlığı yoluyla, ilişkinizi yeniden inşa etmek ve güçlendirmek veya ayrı yollarınıza gitmek hakkında düşünceli kararlar verebilirsiniz.'
+    
+      );
+    }
+    onPress4() {  
+      Alert.alert(  
+          'Alert Title',  
+          'My Alert Mssdfsgeg',  
+          [  
+              {  
+                  text: 'Kapat',  
+                  onPress: () => console.log('Cancel Pressed'),  
+                  style: 'cancel',  
+              }
+              
+          ]  
+      );  
+  }  
    onPress5(){
     alert('Bilgilendirme5');
    }
@@ -44,9 +79,11 @@ export default class MainPage extends Component {
 
   render() {
     return (
+
       <ImageBackground
         source={require('./assets/mainbg.jpg')}
         style={styles.bgimage}>
+                <SafeAreaView>
         <ScrollView style={styles.scrollView}>
           <Swiper
             style={styles.wrapper}
@@ -57,27 +94,42 @@ export default class MainPage extends Component {
               alignItems: 'flex-start',
               marginTop: 130,
               color: '#ffffff',
-            }}>
+            }}
+            >
            <View style={styles.slide1}>
               <ImageBackground
                 source={require('./assets/pexels-artem-podrez-4492189.png')}
                 style={styles.slider}>
                 <Text
                   style={{
-                    marginTop: 175,
-                    marginLeft: 110,
+                    marginTop: 180,
+                    marginLeft: 85,
                     textAlign: 'right',
-                    width: 230,
+                    width: 260,
+                    fontFamily: 'PTSerif-BoldItalic',
+                    fontSize: 14
                   }}>
-                  Dünyanın her yerinden istediğiniz psikologla görüşebilirsiniz
-                </Text>
+                  Dünyanın her yerinden </Text> 
+                  <Text style={{
+                    fontFamily: 'PTSerif-BoldItalic',
+                    fontSize: 14,
+                    marginRight: 10,
+                    textAlign: 'right',}}
+                  >istediğiniz psikologla görüşebilirsiniz
+                  </Text>
+                
               </ImageBackground>
             </View>
             <View style={styles.slide2}>
               <ImageBackground
                 source={require('./assets/pexels-ketut-subiyanto-4474047.png')}
                 style={styles.slider}>
-                <Text style={{marginTop: 55, marginLeft: 40, width: 150}}>
+                <Text style={{
+                  marginTop: 55, 
+                  marginLeft: 40, 
+                  width: 150,
+                  fontFamily: 'PTSerif-BoldItalic',
+                  fontSize: 14}}>
                   Tek tuşla kolayca randevu alabilirsiniz
                 </Text>
               </ImageBackground>
@@ -86,7 +138,12 @@ export default class MainPage extends Component {
               <ImageBackground
                 source={require('./assets/pexels-karolina-grabowska-4491440.png')}
                 style={styles.slider}>
-                <Text style={{marginTop: 55, marginLeft: 40, width: 120}}>
+                <Text style={{
+                   marginTop: 55,
+                   marginLeft: 40, 
+                   width: 120,
+                   fontFamily: 'PTSerif-BoldItalic',
+                   fontSize: 14}}>
                   Sizin için en uygun psikoloğu seçebilirsiniz
                 </Text>
               </ImageBackground>
@@ -145,7 +202,7 @@ export default class MainPage extends Component {
               <View style={styles.kutu}>
               <TouchableOpacity
               onPress={this.onPress5}>
-                  <Text>Psikolojik Travma Psikoterapisi</Text>
+                  <Text >Psikolojik Travma Psikoterapisi</Text>
               </TouchableOpacity>
               </View>
             </View>
@@ -231,7 +288,9 @@ export default class MainPage extends Component {
           </View>
           
         </ScrollView>
+        </SafeAreaView>
       </ImageBackground>
+
     );
   }
 }
