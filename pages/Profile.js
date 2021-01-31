@@ -1,22 +1,15 @@
 import React, {Component} from 'react';
 import {
-  SafeAreaView,
   StyleSheet,
-  ScrollView,
   View,
   Text,
-  StatusBar,
   ImageBackground,
-  Image,
-  Button,
   TouchableOpacity,
-  TextInput,
-  FlatList,
-  ImageResizeMode,
 } from 'react-native';
-import ProfileData from './components/ProfileData';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
+import call from 'react-native-phone-call';
+import DatePicker from 'react-datepicker';
 
 export default class Profile extends Component {
   constructor(props) {
@@ -27,8 +20,30 @@ export default class Profile extends Component {
         name: '',
         uid: '',
       },
+      args: {
+        number: '905070275365',
+        prompt: false, //
+      },
     };
     this.getUserFb();
+  }
+  signOut() {
+    //auth().getInstance().signOut();
+    alert('Succesfully signed out');
+    this.props.navigation.navigate('WelcomeInformation');
+  }
+  sendEmail() {
+    auth()
+      .sendPasswordResetEmail(this.state.user.email)
+      .then(function () {
+        alert('Email has been sent');
+      })
+      .catch(function (error) {
+        console.log('An error happened.');
+      });
+  }
+  callUs() {
+    call(this.state.args).catch(console.error);
   }
   getUserFb = async () => {
     const gotUser = await firestore()
@@ -42,18 +57,38 @@ export default class Profile extends Component {
       <ImageBackground
         source={require('./assets/profilebg.jpg')}
         style={styles.bgimage}>
-        <View style={styles.profileDetails}>
-          <View style={styles.prfimage}></View>
-          <View style={styles.verticalContainer}>
-            <View style={styles.name}></View>
-            <View style={styles.userType}></View>
-          </View>
-        </View>
         <View style={styles.settingSection}>
-          <TouchableOpacity style={styles.settingPart}></TouchableOpacity>
-          <View style={styles.settingPart}></View>
-          <View style={styles.settingPart}></View>
-          <View style={styles.settingPart}></View>
+          <View style={styles.profileDetails}>
+            <View style={styles.verticalContainer}>
+              <View style={styles.name}>
+                <Text style={styles.text}>{this.state.user.name}</Text>
+              </View>
+              <View style={styles.userType}>
+                <Text style={styles.text2}>{this.state.user.email}</Text>
+              </View>
+            </View>
+          </View>
+          <TouchableOpacity style={styles.settingPart}>
+            <Text
+              onPress={() => this.sendEmail()}
+              style={styles.settingPartText}>
+              Change Password
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.settingPart}>
+            <Text style={styles.settingPartText}>KVKK and Privacy Terms</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.settingPart}>
+            <Text onPress={() => this.callUs()} style={styles.settingPartText}>
+              Call us
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => this.signOut()}
+            style={styles.settingPart}>
+            <Text style={styles.settingPartText}>Sign Out</Text>
+          </TouchableOpacity>
+          <DatePicker />
         </View>
       </ImageBackground>
     );
@@ -73,9 +108,9 @@ const styles = StyleSheet.create({
     height: '30%',
   },
   profileDetails: {
-    flex: 1,
+    flex: 0.3,
 
-    borderWidth: 3,
+    borderWidth: 0.4,
     marginBottom: 10,
     height: '50%',
     flexDirection: 'row',
@@ -90,7 +125,13 @@ const styles = StyleSheet.create({
     height: 50,
     marginTop: 10,
     marginBottom: 10,
-    backgroundColor: 'rgba(249, 199, 199, 0.6)',
+    backgroundColor: 'rgba(249, 199, 199, 0.8)',
+  },
+  settingPartText: {
+    textAlign: 'center',
+    justifyContent: 'center',
+    fontSize: 25,
+    paddingTop: 10,
   },
   prfimage: {
     flex: 1,
@@ -121,5 +162,11 @@ const styles = StyleSheet.create({
   },
   settingSection: {
     flex: 3,
+  },
+  text: {
+    fontSize: 35,
+  },
+  text2: {
+    fontSize: 27,
   },
 });
