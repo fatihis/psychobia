@@ -5,7 +5,7 @@ import Login from './Login';
 import SingUp from './SingUp';
 import TabsNavigator from './TabsNavigator';
 import TabsNavigatorDanisman from './TabsNavigatorDanisman';
-
+import WelcomeInformation from './WelcomeInformation';
 
 import ModalSearch from './ModalSearch';
 import ModalAppointmentUser from './ModalAppointmentUser';
@@ -27,6 +27,12 @@ const MainStack = createStackNavigator(
   {
     SignUp: {
       screen: SingUp,
+      navigationOptions: {
+        headerShown: false,
+      },
+    },
+    WelcomeInformation: {
+      screen: WelcomeInformation,
       navigationOptions: {
         headerShown: false,
       },
@@ -55,7 +61,6 @@ const ModalStack = createStackNavigator(
     ModalScreenSearch: ModalSearch,
     ModalAppointmentUser: ModalAppointmentUser,
     ModalAppointmentDanisman: ModalAppointmentDanisman,
-
   },
   {
     mode: 'modal',
