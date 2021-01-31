@@ -53,8 +53,15 @@ export default class Search extends Component {
             alignItems: 'center',
             justifyContent: 'center',
           }}>
-          <Text style={styles.insider}>Consultant Name: {item.name}</Text>
-          <Text style={styles.insider}>Consultant Uid: {item.uid}</Text>
+          <Text style={styles.insider}>{item.name}</Text>
+          <View style={styles.hashtagcontainer}>
+            <View style={styles.hashtag1}>
+              <Text>{item.hashtagone}</Text>
+            </View>
+            <View style={styles.hashtag2}>
+              <Text>{item.hashtagtwo}</Text>
+            </View>
+          </View>
         </View>
       </TouchableOpacity>
     );
@@ -177,8 +184,28 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     marginBottom: 20,
   },
+  hashtag1: {
+    flexDirection: 'column',
+    paddingHorizontal: 2,
+    borderRadius: 3,
+    borderWidth: 1,
+    borderColor: 'red',
+  },
+  hashtag2: {
+    flexDirection: 'column',
+    paddingHorizontal: 2,
+    borderRadius: 3,
+    borderWidth: 2,
+    borderColor: 'cyan',
+  },
+  hashtagcontainer: {
+    borderColor: 'black',
+    flex: 1,
+    flexDirection: 'column',
+  },
   itemContainter: {
     backgroundColor: 'rgba(235, 228, 228, 0.8)',
+    height: 70,
     marginBottom: 20,
     borderRadius: 20,
   },
