@@ -74,9 +74,7 @@ export default class AppointmentDanisman extends Component {
                   alignItems: 'center',
                   justifyContent: 'center',
                 }}>
-                <Text style={styles.insider}>
-                  Consultant Name: {item.uidUser}
-                </Text>
+                <Text style={styles.insider}>UID user: {item.uidUser}</Text>
                 <Text style={styles.insider}>
                   Date:{' '}
                   {moment(item.appDate.toDate()).format(
