@@ -43,7 +43,6 @@ export default function CallScreen({setScreen, screens, roomId}) {
   }, []);
 
   const startLocalStream = async () => {
-    // isFront will determine if the initial camera should face user or environment
     const isFront = true;
     const devices = await mediaDevices.enumerateDevices();
 
@@ -52,11 +51,12 @@ export default function CallScreen({setScreen, screens, roomId}) {
       (device) => device.kind === 'videoinput' && device.facing === facing,
     );
     const facingMode = isFront ? 'user' : 'environment';
+    //configure getUserMedia() constraints
     const constraints = {
       audio: true,
       video: {
         mandatory: {
-          minWidth: 500, // Provide your own width, height and frame rate here
+          minWidth: 500,
           minHeight: 300,
           minFrameRate: 30,
         },

@@ -43,7 +43,6 @@ export default function CallScreen({setScreen, screens, roomId}) {
   }, []);
 
   const startLocalStream = async () => {
-    // isFront will determine if the initial camera should face user or environment
     const isFront = true;
     const devices = await mediaDevices.enumerateDevices();
 
@@ -56,7 +55,7 @@ export default function CallScreen({setScreen, screens, roomId}) {
       audio: true,
       video: {
         mandatory: {
-          minWidth: 500, // Provide your own width, height and frame rate here
+          minWidth: 500,
           minHeight: 300,
           minFrameRate: 30,
         },
@@ -120,7 +119,6 @@ export default function CallScreen({setScreen, screens, roomId}) {
     localStream.getVideoTracks().forEach((track) => track._switchCamera());
   };
 
-  // Mutes the local's outgoing audio
   const toggleMute = () => {
     if (!remoteStream) {
       return;

@@ -56,14 +56,13 @@ export default function JoinScreen({setScreen, screens, roomId}) {
       audio: true,
       video: {
         mandatory: {
-          minWidth: 500, // Provide your own width, height and frame rate here
+          minWidth: 500,
           minHeight: 300,
           minFrameRate: 30,
         },
         facingMode,
         optional: videoSourceId ? [{sourceId: videoSourceId}] : [],
       },
-     
     };
     const newStream = await mediaDevices.getUserMedia(constraints);
     setLocalStream(newStream);
@@ -71,7 +70,7 @@ export default function JoinScreen({setScreen, screens, roomId}) {
 
   const joinCall = async (id) => {
     const roomRef = await db.collection('rooms').doc(id);
-  
+
     const roomSnapshot = await roomRef.get();
 
     if (!roomSnapshot.exists) return;

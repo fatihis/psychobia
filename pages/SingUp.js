@@ -58,7 +58,6 @@ export default class SingUp extends Component {
           name: this.state.name,
           userType: 'user',
         });
-        alert('User account created & signed in!');
       })
       .catch((error) => {
         if (error.code === 'auth/email-already-in-use') {

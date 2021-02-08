@@ -3,7 +3,7 @@ import {Text, View} from 'react-native';
 import MainPage from './MainPage';
 import Search from './Search';
 import Appointment from './Appointment';
-import AppointmentData from './AppointmentData'
+import AppointmentData from './AppointmentData';
 import Profile from './Profile';
 import {createStackNavigator} from 'react-navigation-stack';
 import {AppContainer, createAppContainer} from 'react-navigation';
@@ -22,9 +22,6 @@ const TabNavigator = createBottomTabNavigator(
       navigationOptions: {
         headerShown: false,
         tabBarLabel: 'Anasayfa',
-        tabBarIcon: ({tintColor}) => (
-          <Icon size={27} color={tintColor} name="home"></Icon>
-        ),
       },
     },
     Search: {
@@ -32,19 +29,13 @@ const TabNavigator = createBottomTabNavigator(
       navigationOptions: {
         headerShown: false,
         tabBarLabel: 'Danışman Ara',
-        tabBarIcon: ({tintColor}) => (
-          <Icon size={27} color={tintColor} name="search"></Icon>
-        ),
       },
     },
-   Appointment: {
+    Appointment: {
       screen: Appointment,
       navigationOptions: {
         headerShown: false,
         tabBarLabel: 'Görüşmelerim',
-        tabBarIcon: ({tintColor}) => (
-          <Icon size={27} color={tintColor} name="calendar"></Icon>
-        ),
       },
     },
     Profile: {
@@ -52,9 +43,6 @@ const TabNavigator = createBottomTabNavigator(
       navigationOptions: {
         headerShown: false,
         tabBarLabel: 'Profilim',
-        tabBarIcon: ({tintColor}) => (
-          <Icon size={27} color={tintColor} name="id-badge"></Icon>
-        ),
       },
     },
   },
