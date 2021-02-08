@@ -36,6 +36,7 @@ export default class AppointmentDanisman extends Component {
   }
   componentDidMount() {
     const currentUid = auth().currentUser.uid;
+
     const subscriber = firestore()
       .collection('Appointment')
       .where('uidConsultant', '==', currentUid)
@@ -74,7 +75,6 @@ export default class AppointmentDanisman extends Component {
                   alignItems: 'center',
                   justifyContent: 'center',
                 }}>
-                <Text style={styles.insider}>UID user: {item.uidUser}</Text>
                 <Text style={styles.insider}>
                   Date:{' '}
                   {moment(item.appDate.toDate()).format(

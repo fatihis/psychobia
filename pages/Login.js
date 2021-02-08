@@ -123,15 +123,15 @@ export default class Login extends Component {
                   }>
                   <Text style={styles.loginText}>GİRİŞ</Text>
                 </TouchableOpacity>
-                <View style = {styles.kayit}>
-                <Text style={styles.kayitText}>
-                  Henüz kayıt olmadınız mı?{' '}
-                  <Text
-                    onPress={() => this.props.navigation.navigate('SignUp')}
-                    style={styles.kayitTiklaText}>
-                    Tıklayın
+                <View style={styles.kayit}>
+                  <Text style={styles.kayitText}>
+                    Henüz kayıt olmadınız mı?{' '}
+                    <Text
+                      onPress={() => this.props.navigation.navigate('SignUp')}
+                      style={styles.kayitTiklaText}>
+                      Tıklayın
+                    </Text>
                   </Text>
-                </Text>
                 </View>
               </View>
               <TouchableOpacity
@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
     color: 'purple',
     textAlign: 'center',
   },
- /* kayit: {
+  /* kayit: {
     justifyContent: 'center',
     alignItems: 'center',
     textAlign: 'center',
@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   loginText: {
-    textAlign: 'center'
+    textAlign: 'center',
   },
   loginPart: {
     flex: 6,

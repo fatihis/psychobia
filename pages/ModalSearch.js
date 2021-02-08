@@ -9,6 +9,11 @@ function ModalSearch({navigation}) {
   const [uid, setUid] = useState('');
   const [name, setName] = useState('');
   const [point, setPoint] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
+  const [chosenDate, setChosenDate] = useState('');
+  const [chosenDateS, setChosenDateS] = useState(new Date());
+  const [consultantName, setConsultantName] = useState('');
+  const [perks, setPerks] = useState('');
   useEffect(() => {
     const subscriber = firestore()
       .collection('Users')
@@ -17,28 +22,24 @@ function ModalSearch({navigation}) {
         console.log('User data: ', documentSnapshot.data());
         setPoint(documentSnapshot.data().point);
         setName(documentSnapshot.data().name);
+        setPerks(documentSnapshot.data().perks);
       });
 
     return () => subscriber();
   }, [consUid]);
 
-  const [isVisible, setIsVisible] = useState(false);
-  const [chosenDate, setChosenDate] = useState('');
-  const [consultantName, setConsultantName] = useState('');
   const showPicker = () => {
     setIsVisible(true);
   };
   const hidePicker = () => {
     setIsVisible(false);
- 
   };
   const handlePicker = (datetime) => {
     setChosenDate(moment(datetime).format('MMMM, Do YYYY HH:mm'));
     console.log(chosenDate);
+    setChosenDateS(datetime);
     hidePicker();
   };
-
-
 
   /*const getConsultantName = async () => {
     const gotUser = await firestore().collection('Users').doc(consUid).get();
@@ -46,36 +47,41 @@ function ModalSearch({navigation}) {
     setConsultantName(gotUser.name);
   };*/
   const setAppointment = () => {
+    console.log(chosenDate);
+    const date = new Date(chosenDateS);
+    console.log(date);
+    console.log('durum,', firestore.Timestamp.fromDate(date));
     firestore()
       .collection('Appointment')
       .add({
-        appDate: firestore.FieldValue.serverTimestamp(chosenDate),
+        appDate: firestore.Timestamp.fromDate(date),
         nameConsultant: name,
         uidConsultant: consUid,
         uidUser: auth().currentUser.uid,
- 
       });
-     
   };
 
   return (
     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Details Screen</Text>
-      <Text>itemId: {consUid}</Text>
-      <Text>Consultant Name: {name}</Text>
+      <Text style={styles.perks}>{perks}</Text>
+      <Text>{name}</Text>
       <Text>Point: {point}</Text>
       <Text>{chosenDate}</Text>
       <TouchableOpacity style={styles.button} onPress={showPicker}>
-        <Text style={{color: 'white'}}>Show DatePicker</Text>
+        <Text style={{color: 'white'}}>Tarih seçin</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={setAppointment}>
-        <Text style={{color: 'white'}}>Set Appointment</Text>
+      <TouchableOpacity style={styles.button2} onPress={setAppointment}>
+        <Text style={{color: 'white'}}>Randevu oluştur</Text>
       </TouchableOpacity>
       <DateTimePickerModal
+        display="spinner"
         isVisible={isVisible}
         mode="datetime"
         onConfirm={(datetime) => handlePicker(datetime)}
         onCancel={hidePicker}
+        excludeTimes={[
+          new Date().setHours(new Date().setMinutes(new Date(), 0), 17),
+        ]}
       />
     </View>
   );
@@ -110,10 +116,24 @@ const styles = StyleSheet.create({
     width: 100,
     height: 30,
   },
+  perks: {
+    paddingHorizontal: 20,
+    marginBottom: 20,
+  },
   button: {
     width: 250,
     height: 50,
     backgroundColor: '#330066',
+    justifyContent: 'center',
+    textAlign: 'center',
+    alignItems: 'center',
+    borderRadius: 30,
+    marginTop: 15,
+  },
+  button2: {
+    width: 250,
+    height: 50,
+    backgroundColor: '#ff9cde',
     justifyContent: 'center',
     textAlign: 'center',
     alignItems: 'center',
