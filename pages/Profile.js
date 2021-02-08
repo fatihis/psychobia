@@ -9,7 +9,6 @@ import {
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
 import call from 'react-native-phone-call';
-import DatePicker from 'react-datepicker';
 
 export default class Profile extends Component {
   constructor(props) {
@@ -88,7 +87,6 @@ export default class Profile extends Component {
             style={styles.settingPart}>
             <Text style={styles.settingPartText}>Sign Out</Text>
           </TouchableOpacity>
-          <DatePicker />
         </View>
       </ImageBackground>
     );
