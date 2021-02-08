@@ -9,7 +9,7 @@ import {
   TextInput,
   ScrollView,
   FlatList,
-  ActivityIndicator
+  ActivityIndicator,
 } from 'react-native';
 import firestore from '@react-native-firebase/firestore';
 
@@ -28,19 +28,24 @@ export default class Search extends Component {
       .where('userType', '==', 'consultant')
       .onSnapshot((querySnapshot) => {
         const users = [];
-        
+        const filters = [];
         querySnapshot.forEach((documentSnapshot) => {
           users.push({
+            ...documentSnapshot.data(),
+            key: documentSnapshot.data().uid,
+          });
+          filters.push({
             ...documentSnapshot.data(),
             key: documentSnapshot.data().uid,
           });
         });
         this.setState({users: users});
         console.log(this.state.users);
+        this.setState({filters: filters});
       });
     return () => subscriber();
   }
- 
+
   ListItem = ({item, index}) => {
     return (
       <TouchableOpacity
@@ -56,10 +61,10 @@ export default class Search extends Component {
           <Text style={styles.insider}>{item.name}</Text>
           <View style={styles.hashtagcontainer}>
             <View style={styles.hashtag1}>
-              <Text>{item.hashtagone}</Text>
+              <Text style={styles.hashtagOne}>{item.hashtagone}</Text>
             </View>
             <View style={styles.hashtag2}>
-              <Text>{item.hashtagtwo}</Text>
+              <Text style={styles.hashtagTwo}>{item.hashtagtwo}</Text>
             </View>
           </View>
         </View>
@@ -68,55 +73,46 @@ export default class Search extends Component {
   };
   searchFilter = (text) => {
     const newData = this.state.users.filter((item) => {
-      const listItem = `${item.name.toLowerCase()} ${item.uid.toLowerCase()}`;
+      const listItem = `${item.name.toLowerCase()} ${item.uid.toLowerCase()} ${item.hashtagone.toLowerCase()} ${item.hashtagtwo.toLowerCase()}`;
       return listItem.indexOf(text.toLowerCase()) > -1;
     });
     this.setState({
       filters: newData,
-
-  
     });
- 
   };
-
 
   renderHeader = () => {
     const {text} = this.state;
- 
+
     return (
       <View style={styles.searchContainer}>
         <TextInput
           onChangeText={(text) => {
             this.setState({
-              text
+              text,
             });
             this.searchFilter(text);
-            
           }}
           value={text}
           placeholder="Danışman ara"
           style={styles.searchInput}
         />
-
       </View>
     );
   };
 
   render() {
-    
     if (this.state.loading) {
       return <ActivityIndicator />;
     }
-    
+
     return (
-    
       <ImageBackground
         source={require('./assets/searchbg.jpg')}
         style={styles.bgimage}>
-               
         <View style={styles.MainContainer}>
           <Text style={styles.danisanlarText}>Danışmanlar</Text>
-          
+
           <FlatList
             ListHeaderComponent={this.renderHeader()}
             renderItem={this.ListItem}
@@ -124,8 +120,6 @@ export default class Search extends Component {
             data={this.state.filters}
             style={styles.FlatList}
           />
-  
-       
         </View>
       </ImageBackground>
     );
@@ -187,16 +181,23 @@ const styles = StyleSheet.create({
   hashtag1: {
     flexDirection: 'column',
     paddingHorizontal: 2,
-    borderRadius: 3,
+    borderRadius: 2,
     borderWidth: 1,
-    borderColor: 'red',
+    marginBottom: 1,
+    borderColor: '#8b0a50',
   },
   hashtag2: {
     flexDirection: 'column',
     paddingHorizontal: 2,
-    borderRadius: 3,
-    borderWidth: 2,
-    borderColor: 'cyan',
+    borderRadius: 2,
+    borderWidth: 1.5,
+    borderColor: '#b03060',
+  },
+  hashtagOne: {
+    color: '#4f4f4f',
+  },
+  hashtagTwo: {
+    color: '#4f4f4f',
   },
   hashtagcontainer: {
     borderColor: 'black',
