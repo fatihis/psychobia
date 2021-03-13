@@ -72,7 +72,7 @@ export default class Search extends Component {
     );
   };
   searchFilter = (text) => {
-    const newData = this.state.users.filter((item) => {
+      const newData = this.state.users.filter((item) => {
       const listItem = `${item.name.toLowerCase()} ${item.uid.toLowerCase()} ${item.hashtagone.toLowerCase()} ${item.hashtagtwo.toLowerCase()}`;
       return listItem.indexOf(text.toLowerCase()) > -1;
     });
